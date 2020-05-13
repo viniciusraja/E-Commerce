@@ -1,0 +1,22 @@
+node_modules/**/*
+.expo/*
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+web-report/
+
+
+
+# Google Services (e.g. APIs or Firebase)
+google-services.json
+GoogleService-Info.plist
+
+# macOS
+.DS_Store
+src/config/constants/constantsKeys.js
+yarn-error.log
