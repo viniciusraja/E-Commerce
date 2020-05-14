@@ -15,6 +15,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 
 import LoginContainer from '../components/container/LoginContainer';
+import Header from '../components/container/Header';
 import Constants from '../config/constants/Constants';
 
 class HomeScreen extends Component {
@@ -32,9 +33,9 @@ class HomeScreen extends Component {
     if (this.shouldComponentRender())
       return (
         <LinearGradient
-          colors={['#fff', '#f5f5f5', '#B7FDF0']}
+          colors={[Constants.Colors.forestGreeen, Constants.Colors.lightforestGreeen]}
           start={[0, 0]}
-          end={[0, 0.5]}
+          end={[0, 1]}
           style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         
           <ActivityIndicator size={60} color={Constants.Colors.darkGreen} />
@@ -43,11 +44,12 @@ class HomeScreen extends Component {
 
     return (
       <LinearGradient
-        colors={['#fff', '#f5f5f5', '#B7FDF0']}
-        start={[0, 0]}
-        end={[0, 0.5]}
+      colors={[Constants.Colors.forestGreeen, Constants.Colors.lightforestGreeen]}
+      start={[0, 0]}
+        end={[0.5, 1]}
         style={{ flex: 1 }}>
         <View style={styles.container}>
+          <Header/>
           <LoginContainer/>
           
         </View>
@@ -64,5 +66,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 });
+
+
 
 export default HomeScreen;

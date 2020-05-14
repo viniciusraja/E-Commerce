@@ -4,10 +4,13 @@ import { PanGestureHandler, State } from 'react-native-gesture-handler';
 
 import * as Google from 'expo-google-app-auth';
 import * as Facebook from 'expo-facebook';
-import StyledTextInput from '../../presentational/StyledTextInput'
 import { SimpleLineIcons, FontAwesome, AntDesign } from '@expo/vector-icons'; 
 import { styles } from './styles';
+import Constants from '../../../config/constants/Constants'
 import {googleIosClientId, googleAndroidClientId, facebookId} from '../../../config/constants/constantsKeys'
+import { useDispatch, useSelector, shallowEqual } from 'react-redux'
+
+import {showLoginComponent} from '../../../store/ducks/actions/showComponent'
 
 
 async function signInWithGoogleAsync() {
@@ -55,31 +58,31 @@ async function logInWithFacebook() {
 
 
 const LoginContainer = (props) => {
+  const dispatch= useDispatch()
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
-  const [loginIsOpened, setloginIsOpened] = useState(true);
+  const loginIsOpened= useSelector(state => (state.showComponent.loginContainer))
   return (
-    <View style={styles.container}>
-        {loginIsOpened&&<View style={styles.loginContainer} >
+        loginIsOpened?<View style={styles.loginContainer} >
         <TouchableOpacity
-        onPress={()=>setloginIsOpened(false)}
+       onPress={()=>dispatch(showLoginComponent())}
         style={{alignSelf:'flex-end', marginRight:10}}
         >
-        <AntDesign name="close" size={20} color="#c5c5c5" />
+        <AntDesign name="close" size={20} color={Constants.Colors.lightGrey} />
         </TouchableOpacity>
 
         <View style={styles.inputsAndUserImgContainer}>
-        <FontAwesome name="user-circle" size={75} color="#c5c5c5" />
+        <FontAwesome name="user-circle" size={75} color={Constants.Colors.lightGrey} />
         <View style={styles.signInContainer}>
         <TextInput style={styles.input}
           placeholder=" Email"
-          placeholderTextColor="#858585"
+          placeholderTextColor={Constants.Colors.lightGrey}
           onChangeText={text => setUserEmail(text)}
           defaultValue={userEmail}
           />
         <TextInput style={styles.input}
           placeholder="Password"
-          placeholderTextColor="#858585"
+          placeholderTextColor={Constants.Colors.lightGrey}
           onChangeText={text => setUserPassword(text)}
           defaultValue={userPassword}
           />
@@ -95,7 +98,7 @@ const LoginContainer = (props) => {
           </View>
 
           <View style={{ height:20, justifyContent:'center'}}>
-            <Text style={{color:"#959595", fontSize:18}}>ou</Text>
+            <Text style={{color:Constants.Colors.lightGrey, fontSize:18}}>ou</Text>
           </View>
 
          <View style={styles.signUpButtonsContainer}>
@@ -121,8 +124,7 @@ const LoginContainer = (props) => {
             <Text style={styles. createAcountText}> Create Account</Text>
           </TouchableOpacity>
           </View>
-        </View>}
-    </View>
+        </View>:<View/>
   );
 };
 

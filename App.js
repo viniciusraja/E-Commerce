@@ -1,12 +1,16 @@
 import React from 'react';
+import {Provider} from 'react-redux'
+import configureStore from './src/store/ducks/store/configureStore'
 
 import { StatusBar, View} from 'react-native';
 
 import * as Font from 'expo-font';
 
 import Router from './src/navigation/navigations'
+
+const store=configureStore()
 class App extends React.Component{
-  
+
         state = {
             fontLoaded: false,
           };
@@ -30,11 +34,14 @@ class App extends React.Component{
         return(
             this.state.fontLoaded? 
         <>
+        <Provider store={store}>
         <StatusBar hidden />
         <Router/>
+        </Provider>
         </>:<View/>
         )
     }
 }
+
 
 export default App;

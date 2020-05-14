@@ -2,14 +2,8 @@ import { StyleSheet } from 'react-native';
 import Constants from '../../../config/constants/Constants';
 
 export const styles = StyleSheet.create({
-  container: {
-    flex:1,
-    width:'100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   loginContainer: {
-    height:'70%',
+    height:'75%',
     width:'70%',
     paddingVertical:10,
     alignItems: 'center',
