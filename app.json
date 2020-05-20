@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "COVID-19 Estatísticas",
-    "slug": "covid-19",
+    "name": "E-commerce",
+    "slug": "e-commerce",
     "platforms": [
       "ios",
       "android",
@@ -35,6 +35,10 @@
       "package": "covid19.estatistica",
       "versionCode": 1,
       "googleServicesFile": "./google-services.json"
+    },
+    "packagerOpts": {
+      "config": "./metro.config.js",
+      "sourceExts": ["js", "jsx", "svg", "ts", "tsx"]
     }
   }
 }
