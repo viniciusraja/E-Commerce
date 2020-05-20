@@ -7,8 +7,7 @@ const initialState = {
 const showComponentReducer = (state = initialState, action) => {
     switch (action.type) {
           
-    case SHOW_LOGIN_COMPONENT: console.log('sssss',state)
-            const isOpened= state.loginContainer
+    case SHOW_LOGIN_COMPONENT: 
       return {
           ...state,
               loginContainer:!state.loginContainer,
