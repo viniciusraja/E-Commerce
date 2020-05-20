@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import { View, Animated, TouchableOpacity, Text, TextInput } from 'react-native';
-import { PanGestureHandler, State } from 'react-native-gesture-handler';
+import { View, TouchableOpacity, Text, TextInput } from 'react-native';
 
 import * as Google from 'expo-google-app-auth';
 import * as Facebook from 'expo-facebook';
