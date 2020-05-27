@@ -1,3 +1,6 @@
 export const SHOW_LOGIN_COMPONENT = 'SHOW_LOGIN_COMPONENT';  
 export const CATEGORIES_LIST = 'CATEGORIES_LIST';
 export const PRODUCTS_LIST = 'PRODUCTS_LIST';  
+export const CART_LIST = 'CART_LIST';  
+export const ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART';  
+export const REMOVE_ITEM_TO_CART = 'REMOVE_ITEM_TO_CART';  
