@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
     height:230,
     width:'100%',
     alignItems:'center',
+    
   },
   productsListNameContainer:{
     height:70,

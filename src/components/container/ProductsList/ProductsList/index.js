@@ -4,7 +4,7 @@ import ProductsList from './ProductsList'
 
 export default (props) => {
   return (
-    <ProductsList productsListTitle={props.productsListTitle} productsListSubtitle={props.productsListSubtitle} 
+    <ProductsList products={props.products} productsListTitle={props.productsListTitle} productsListSubtitle={props.productsListSubtitle} 
     />
   );
 };

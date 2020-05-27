@@ -13,11 +13,9 @@ import {
 import ProductCard from '../ProductsCard/'
 
 import { styles } from './styles';
-import { useDispatch, useSelector } from 'react-redux';
 
 const ProductsList = (props) => {
-  const dispatch= useDispatch()
-  const productsList= useSelector(state => (state.getProductsList.productsList))
+  const productsList= props.products
   return (
     <View style={styles.productsListContainer}>
       <View style={styles.productsListNameContainer}>
@@ -27,7 +25,7 @@ const ProductsList = (props) => {
       <FlatList
       contentContainerStyle={styles.productsList}
       data={productsList}
-      renderItem={({item})=><ProductCard name={item.name} img={item.img} price={item.price}/>}
+      renderItem={({item})=><ProductCard name={item.name} img={item.img} price={item.price} id={item.id} details={item.details}/>}
       keyExtractor={item=>`${item.id}`}
       horizontal={true}
       showsHorizontalScrollIndicator={false}

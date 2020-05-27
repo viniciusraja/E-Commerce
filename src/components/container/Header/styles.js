@@ -8,6 +8,13 @@ export const styles = StyleSheet.create({
     flexDirection:'row',
     alignItems: 'center',
     justifyContent: 'space-evenly',
+    backgroundColor:Constants.Colors.backgroundColor
+  },
+  cartButtonContainer:{
+    height:'100%',
+    width:45,
+    justifyContent:'center',
+    alignItems:'center'
   },
   input:{
     height:40,
@@ -21,6 +28,29 @@ export const styles = StyleSheet.create({
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 5,
     opacity:0.7,
+    },
+    quantityOfItemsInCartContainer:{
+    position:'absolute',
+    height:15,
+    width:15,
+    bottom:6,
+    right:0,
+    backgroundColor:Constants.Colors.yellowMostard,
+    justifyContent:'center',
+    alignItems:'center',
+    borderRadius:10,
+    },
+    quantityOfItemsInCartText:{
+      textAlign:'center',
+      color:'#fff',
+      fontFamily:Constants.fontFamily,
+      fontSize:12,
+    },
+    loginButtonContainer:{
+    height:'100%',
+    width:45,
+    justifyContent:'center',
+    alignItems:'center'
     },
     
 });
