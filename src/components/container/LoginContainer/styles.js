@@ -3,9 +3,12 @@ import Constants from '../../../config/constants/Constants';
 
 export const styles = StyleSheet.create({
   loginContainer: {
-    height:'75%',
+    position:'absolute',
+    top:(Constants.Layout.window.height-400-Constants.Layout.headerHeight)/2,
+    height:400,
     width:'70%',
     paddingVertical:10,
+    alignSelf:'center',
     alignItems: 'center',
     justifyContent: 'space-evenly',
     backgroundColor:'#f5f5f5',

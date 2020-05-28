@@ -3,11 +3,11 @@ import Constants from '../../../config/constants/Constants';
 
 export const styles = StyleSheet.create({
   headerContainer: {
-    height:55,
+    height:Constants.Layout.headerHeight,
     width:'100%',
     flexDirection:'row',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     backgroundColor:Constants.Colors.backgroundColor
   },
   cartButtonContainer:{
@@ -53,4 +53,72 @@ export const styles = StyleSheet.create({
     alignItems:'center'
     },
     
+
+
+
+
+
+
+
+
+    autoCompleteContainerToFixPosition: {
+      position:'absolute',
+      zIndex: 60,
+      width:282,
+      left:(Constants.Layout.window.width-282)/2,
+      top:(Constants.Layout.headerHeight-40)/2,
+      height:Constants.Layout.headerHeight,
+    },
+    inputSearchProductContainer: {
+      height: 40,
+      width: '100%',
+      borderRadius: 20,
+      backgroundColor: '#F5F5F5',
+      elevation: 7,
+      fontFamily: Constants.fontFamily,
+      fontSize: 20,
+      textAlign: 'center',
+    },
+    inputContainerStyle: {
+      height: 29,
+      width: 280,
+      borderWidth: 0,
+      borderRadius: 20,
+    },
+    containerStyle: {
+      
+    },
+    listContainerStyle: {
+      justifyContent:'center',
+      alignItems:'center',
+    },
+    listStyle: {
+      height:600,
+      backgroundColor: 'transparent',
+      borderWidth: 0,
+      marginTop: 2,
+      width: '100%',
+    },
+    inputSearchCountryItemContainer: {
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      height: 60,
+      backgroundColor: '#F5F5F5',
+      borderRadius: 20,
+      marginVertical: 2,
+    },
+    inputSearchCountryFlagImage: {
+      height: 25,
+      width: 35,
+      borderRadius: 7,
+      marginRight: 20,
+      marginLeft: 10,
+    },
+    inputSearchCountryText: {
+      fontFamily:Constants.fontFamily,
+      fontSize: 20,
+      textAlign: 'center',
+    },
+
 });
