@@ -3,7 +3,8 @@ import Layout from './Layout'
 
 const Constants={
     Colors,
-    fontFamily:'big_noodle_titling',
-    
+    fontFamily:'steelfish-regular',
+    fontFamilyBold:'steelfish-bold',
+    Layout
 } 
 export default Constants;
