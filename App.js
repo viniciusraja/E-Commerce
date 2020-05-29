@@ -18,11 +18,26 @@ class App extends React.Component{
         async componentDidMount() {
             await Font.loadAsync({
                 'steelfish-regular': {
-                    uri: require('assets/fonts/steelfish-rg.ttf'),
+                    uri: require('assets/fonts/steelfish-rg.ttf')
+                },
+                'steelfish-bold': {
+                    uri: require('assets/fonts/steelfish-bd.ttf'),
             },
-        });
+        })
             await Asset.loadAsync([
-               require('assets/images/burguers/burguerChiken.png')
+               require('assets/images/products/burguerChiken.png'),
+               require('assets/images/products/burguerBacon.png'),
+               require('assets/images/products/burguerOnion.png'),
+               require('assets/images/products/tripleBurguer.png'),
+               require('assets/images/products/onionRings.png'),
+               require('assets/images/products/chikenNuggets.png'),
+               require('assets/images/products/fries.png'),
+               require('assets/images/products/guarana.png'),
+               require('assets/images/products/coke.png'),
+               require('assets/images/products/fanta.png'),
+               require('assets/images/products/grapette.png'),
+               require('assets/images/products/burguerPicanha.png'),
+               require('assets/images/products/friedChiken.png'),
            ] ),
 
         

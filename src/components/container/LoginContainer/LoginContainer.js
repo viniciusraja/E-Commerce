@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, TouchableOpacity, Text, TextInput } from 'react-native';
+import { View, TouchableOpacity, Text, TextInput, Alert } from 'react-native';
 
 import * as Google from 'expo-google-app-auth';
 import * as Facebook from 'expo-facebook';
@@ -29,7 +29,7 @@ async function signInWithGoogleAsync() {
     return { error: true };
   }
 }
-
+let profilePicture=0
 
 async function logInWithFacebook() {
   try {
@@ -44,14 +44,18 @@ async function logInWithFacebook() {
       permissions: ['public_profile'],
     });
     if (type === 'success') {
+      console.log('logged',type, token, expires, permissions, declinedPermissions)
       // Get the user's name using Facebook's Graph API
       const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+      const profilePic = await fetch(`https://graph.facebook.com/v7.0/me?access_token=${token}/picture HTTP/1.1`);
+      profilePicture=profilePic
       Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+      Alert.alert('Logged in!', `Hi ${(await profilePic.json())}!`);
     } else {
       // type === 'cancel'
     }
   } catch ({ message }) {
-    alert(`Facebook Login Error: ${message}`);
+    Alert.alert(`Facebook Login Error: ${message}`);
   }
 }
 
@@ -61,6 +65,7 @@ const LoginContainer = (props) => {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const loginIsOpened= useSelector(state => (state.showComponent.loginContainer))
+  console.log(profilePicture)
   return (
         loginIsOpened?<View style={styles.loginContainer} >
         <TouchableOpacity

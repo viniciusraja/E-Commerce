@@ -20,3 +20,8 @@ GoogleService-Info.plist
 .DS_Store
 src/config/constants/constantsKeys.js
 yarn-error.log
+src/store/data/categoriesList.json
+src/store/data/productsList.json
+src/store/data/burguersList.json
+src/store/data/sideDishesList.json
+src/store/data/drinksList.json

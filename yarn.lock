@@ -6420,7 +6420,7 @@ prompts@^2.0.1, prompts@^2.2.1:
     kleur "^3.0.3"
     sisteransi "^1.0.4"
 
-prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -6518,6 +6518,11 @@ react-is@^16.12.0, react-is@^16.13.0, react-is@^16.7.0, react-is@^16.8.1, react-
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-native-autocomplete-input@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-autocomplete-input/-/react-native-autocomplete-input-4.2.0.tgz#fcfc3d2f19134d4c3394a4e6a5aae13d8c4c9129"
+  integrity sha512-bLZ9FO3NwcqYY3r6hefEEC4VW45L97kXuCyAqKXW1SJkkG/pGcen6zLq3SMFgoQuG3ryrO/ohz7gme7hFwzjoQ==
+
 react-native-gesture-handler@~1.6.0:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.6.1.tgz#678e2dce250ed66e93af409759be22cd6375dd17"
@@ -6532,6 +6537,13 @@ react-native-iphone-x-helper@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.1.tgz#645e2ffbbb49e80844bb4cbbe34a126fda1e6772"
   integrity sha512-/VbpIEp8tSNNHIvstuA3Swx610whci1Zpc9mqNkqn14DkMbw+ORviln2u0XyHG1kPvvwTNGZY6QpeFwxYaSdbQ==
+
+react-native-motion@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-motion/-/react-native-motion-1.0.5.tgz#4132abd74674c8eee0e170c1e1c358fee6564dc3"
+  integrity sha512-3godYhDC6LcTGaitD3ytgPNlKLwxEtYABwPyvrtxvXkMdxBSvsE1+kK2l/cJglDaMDyy0eDqH2IFJGpFVh9CBw==
+  dependencies:
+    prop-types "^15.5.10"
 
 react-native-reanimated@~1.7.0:
   version "1.7.1"
@@ -6558,6 +6570,11 @@ react-native-screens@~2.2.0:
   integrity sha512-a0VzxOWot7F9B/GQyDSssBRd3jUJazFnTQS61IiyReWB6aHlFhf3Xz10jBRoURXy1EMCDCHgenmTVTkKHpKyqQ==
   dependencies:
     debounce "^1.2.0"
+
+react-native-shared-element@0.5.6:
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/react-native-shared-element/-/react-native-shared-element-0.5.6.tgz#f0efac19aac50d495cd4b8caedae758cb9752503"
+  integrity sha512-4e3mFtrmqVHqmRum9xFTpY3JrteEP78oOIMM2I3ygu1sHcemYlyOq1BRoHk4vjHKzIckYuSXt8GAPYv1U5vosg==
 
 react-native-svg-transformer@^0.14.3:
   version "0.14.3"
@@ -6631,6 +6648,18 @@ react-native-web@~0.11.7:
     scheduler "0.15.0"
     stacktrace-parser "^0.1.3"
     whatwg-fetch "^3.0.0"
+
+react-navigation-hooks@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-navigation-hooks/-/react-navigation-hooks-1.1.0.tgz#337c41a50ebc7b9030bb9d9333cd4fd6e1f86b68"
+  integrity sha512-ZY/aiYJ88KXaOo8iOa4171O/0x6ztGhUPd2OYzdaJhLT/tP64zi5HB/RZFImuKhaBTODXjoSpFaOTA5xpePG4g==
+
+react-navigation-shared-element@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-navigation-shared-element/-/react-navigation-shared-element-2.3.0.tgz#d64a150cb7300c064233af210875cfa82506cd60"
+  integrity sha512-fbZnipN8FjaA1sGhhaK1izGsG/GYEHCf7B7cT5lDO75MdFHmOlM7CNkuSq36RBP3I7s8P6pao0xyNI+15//k4w==
+  dependencies:
+    hoist-non-react-statics "^3.3.2"
 
 react-navigation-stack@^2.3.12:
   version "2.4.0"
