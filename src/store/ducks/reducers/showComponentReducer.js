@@ -1,10 +1,14 @@
-import {SHOW_LOGIN_COMPONENT} from '../actions/types'
+import {SHOW_LOGIN_COMPONENT, SHOW_ADMIN_PRODUCT_CONFIG_CONTAINER} from '../actions/types'
 
 const initialState = {
   loginContainer: false,
+  adminProductConfigContainer:{
+    show:false,
+    props:{editingProduct:false}
+}
 };
 
-const showComponentReducer = (state = initialState, action) => {
+const showComponent = (state = initialState, action) => {
     switch (action.type) {
           
     case SHOW_LOGIN_COMPONENT: 
@@ -12,9 +16,19 @@ const showComponentReducer = (state = initialState, action) => {
           ...state,
               loginContainer:!state.loginContainer,
         };
+        
+        case SHOW_ADMIN_PRODUCT_CONFIG_CONTAINER: 
+          return {
+              ...state,
+              adminProductConfigContainer:{
+                show:!state.adminProductConfigContainer.show,
+                props:{
+                  ...action.payload}
+            }
+          }
     default:
       return state;
   }
 };
 
-export default showComponentReducer;
+export default showComponent;
