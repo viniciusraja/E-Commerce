@@ -20,12 +20,13 @@ import Constants from '../../../config/constants/Constants';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { showAdminProductConfigComponent } from 'store/ducks/actions/showComponent';
-
+import { updateProductListComponent } from 'store/ducks/actions/productsList';
 import axios from 'axios';
 import api from 'services/api';
 import * as SecureStore from 'expo-secure-store';
 import * as ImagePicker from 'expo-image-picker';
 import expoConstants from 'expo-constants';
+import {forcePriceInputToValid} from 'config/Validations'
 
 const AdminProductConfigurationForm = (props) => {
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const AdminProductConfigurationForm = (props) => {
   const [productAllergicInformation, setProductAllergicInformation] = useState(
     ''
   );
-  const [image, setImage] = useState(null);
+  const [imageUploadProgress, setImageUploadProgress] = useState(0);
   useEffect(() => {
     (async () => {
       if (expoConstants.platform.ios) {
@@ -58,17 +59,25 @@ const AdminProductConfigurationForm = (props) => {
       }
     })();
   }, []);
+  
+  function adminActionSucceded(msg){
+    Alert.alert(msg)
+    dispatch(updateProductListComponent())
+    dispatch(showAdminProductConfigComponent({}))
+  }
 
-  const adminAddProductToList = () => {
+  const adminAddProductToList = async () => {
     try {
+      const isPriceInputValid=forcePriceInputToValid(`${productPrice}`)
+      console.log(isPriceInputValid)
       if (!!adminConfigProps.id) {
-        api
+       const productWasAdded= await api
           .put(
             `/products/${adminConfigProps.id}`,
             {
               category_id: adminConfigProps.categoryId,
               name: productName || adminConfigProps.name,
-              price: productPrice || adminConfigProps.price,
+              price: `${isPriceInputValid}` || adminConfigProps.price,
               ingredients_details:
                 productIngredientsDetails ||
                 adminConfigProps.ingredients_details,
@@ -76,41 +85,70 @@ const AdminProductConfigurationForm = (props) => {
                 productAllergicInformation ||
                 adminConfigProps.allergic_information,
             },
-            { header: { Authorization: `Bearer ${userInfo.token}` } }
+            {
+              headers: {
+                Authorization: `bearer ${await SecureStore.getItemAsync(
+                  'userToken'
+                )}`,
+                'content-type': 'application/json',
+              },
+            }
           )
+          .then((res) => true)
           .catch((err) => console.log(err));
+          if(productWasAdded)adminActionSucceded("Produto atualizado com sucesso!")
       } else {
-        api
+        const productWasUpdated=await api
           .post(
             '/products',
             {
               category_id: adminConfigProps.categoryId,
               name: productName,
-              price: `${productPrice}`,
+              price: `${isPriceInputValid}`,
               ingredients_details: productIngredientsDetails,
               allergic_information: productAllergicInformation,
             },
-            { header: { Authorization: `Bearer ${userInfo.token}` } }
+            {
+              headers: {
+                Authorization: `bearer ${await SecureStore.getItemAsync(
+                  'userToken'
+                )}`,
+                'content-type': 'application/json',
+              },
+            }
           )
+          .then((res) => true)
           .catch((err) => console.log(err));
+          if(productWasUpdated)adminActionSucceded("Produto atualizado com sucesso!")
       }
     } catch (error) {
       console.log(error);
     }
   };
-  const createFormData = (photo, body) => {
+  const adminDeleteProductToList = async () => {
+    try {
+      const productWasDeleted = await api
+        .delete(`/products/${adminConfigProps.id}`, {
+          headers: {
+            Authorization: `bearer ${await SecureStore.getItemAsync(
+              'userToken'
+            )}`,
+            'content-type': 'application/json',
+          },
+        })
+        .then((res) => true)
+        .catch((err) => console.log(err));
+      if (productWasDeleted)adminActionSucceded("Produto foi Deletado!") 
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const createFormData = (image) => {
     const data = new FormData();
-    data.append(
-      'url',
-      Platform.OS === 'android' ? photo.uri : photo.uri.replace('file://', '')
-    );
-    data.append('data', photo);
-    data.append('name', 'sdfsdcsdcs');
-    // Object.keys(body).forEach(key => {
-    //   data.append(key, body[key]);
-    // });
+    data.append('file', { name: 'Imagem', uri: image.uri, type: image.type });
     return data;
   };
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -118,6 +156,16 @@ const AdminProductConfigurationForm = (props) => {
       aspect: [4, 3],
       quality: 1,
     });
+    if (!result.cancelled) {
+      result.uri =
+        Platform.OS === 'android'
+          ? result.uri
+          : result.uri.replace('file://', '');
+      result.type = `${result.type}/${
+        (result.uri.split('.'),
+        result.uri.split('.')[result.uri.split('.').length - 1])
+      }`;
+    }
     return result;
   };
   const adminAddProductImage = async (productId) => {
@@ -126,47 +174,63 @@ const AdminProductConfigurationForm = (props) => {
       if (image.cancelled) {
         throw 'Imagem n foi selecionada';
       }
-      const data = new FormData();
-      //  data.append('file',{path:image.uri,uri:image.uri,width:image.width,height:image.height, fileName: 'file',
-      //  type: 'image/jpg'});
-      // data.append("originalName","image")
-      data.append("file",{name:"fotoo",uri:image.uri, type: 'image/png'})
-      // data.append("file",{fieldname: 'file',
-      // originalname: 'WhatsApp Image 2020-06-18 at 22.15.02.jpeg',
-      // encoding: '7bit',
-      // type: 'image/jpeg',
-      // filename: 'products-1.jpeg',
-      // uri: 'C:\\Users\\vinic\\Desktop\\Vinícius Rajá\\Diner Shop-Backend\\tmp\\uploads\\products-1.jpeg',
-      // size: 51277})
-      // data.append("data",{...image})
-      // data.append("name","asdfasdasdasdasd")
-      // console.log(image, 'aaaaaaaaaaaa', data);
-      console.log(2, data);
+      const data = createFormData(image);
       const config = {
-        method: 'PUT',
         headers: {
-          Accept: 'application/json',
-          // 'Content-Type': 'multipart/form-data; Boundary=asasdfihobadaovhbaohuvb'
-        },
-        body:{},
-        file:data,
-      };
-
-      fetch(`http://192.168.1.14:4000/products/${productId}/image`, {
-        method: 'PUT',
-        headers: {
-          imagem:'',
+          imagem: '',
           Accept: '*/*',
-          "content-type": 'multipart/form-data',
+          'content-type': 'multipart/form-data',
+          Authorization: `bearer ${await SecureStore.getItemAsync(
+            'userToken'
+          )}`,
         },
-        body:data,
-      })
-      .then(console.log('ai jesususususu'))
-      .catch((err) => console.log('errooo',err));
+        onUploadProgress: (e) => {
+          const progress = parseInt(Math.round((e.loaded * 100) / e.total));
+          console.log('-->', progress, '%');
+          setImageUploadProgress(progress);
+        },
+      };
+      const isAPUTMethod = adminConfigProps.imageId ? true : false;
+      if (isAPUTMethod) {
+       const imageWasAdded=await api
+          .put(
+            `http://192.168.1.14:4000/products/${productId}/image`,
+            data,
+            config
+          )
+          .then((res) => true)
+          .catch((err) => console.log(err));
+          if (imageWasAdded)adminActionSucceded("Imagem foi adicionada com sucesso!") 
+      } else {
+        const imageWasUpdated=await api
+          .post(
+            `http://192.168.1.14:4000/products/${productId}/image`,
+            data,
+            config
+          )
+          .then((res) => true)
+          .catch((err) => console.log(err));
+          if (imageWasUpdated)adminActionSucceded("Imagem foi atualizada com sucesso!") 
+        }
     } catch (error) {
       console.log(error);
     }
   };
+
+  const createDeleteAlert = async () =>
+    Alert.alert(
+      'Você tem certeza que quer deletar o produto?',
+      adminConfigProps.name,
+      [
+        {
+          text: 'Cancelar',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'SIM', onPress: () => adminDeleteProductToList() },
+      ],
+      { cancelable: false }
+    );
 
   return (
     <>
@@ -208,14 +272,14 @@ const AdminProductConfigurationForm = (props) => {
             />
             <TextInput
               style={styles.input}
-              placeholder="Preço do Produto"
+              placeholder={`Preço do Produto \n(ex: 12.50)`}
               placeholderTextColor={Constants.Colors.lightGrey}
               onChangeText={(text) => setProductPrice(text)}
               defaultValue={productPrice}
             />
             <TextInput
               style={styles.input}
-              placeholder="Detalhes do Produto"
+              placeholder={`Detalhes do Produto \n(ex: Ingredientes)`}
               placeholderTextColor={Constants.Colors.lightGrey}
               onChangeText={(text) => setProductIngredientsDetails(text)}
               defaultValue={productIngredientsDetails}
@@ -238,6 +302,21 @@ const AdminProductConfigurationForm = (props) => {
               </View>
             </TouchableOpacity>
           </View>
+          {adminConfigProps.id && (
+            <TouchableOpacity
+              style={styles.submitConfig}
+              onPress={async () => await createDeleteAlert()}>
+              <View style={styles.submitConfigContainer}>
+                <AntDesign name="delete" size={18} color="red" />
+                <Text
+                  style={
+                    (styles.AddImageInputText, { color: 'red', marginLeft: 10 })
+                  }>
+                  DELETE o Produto
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
         </View>
       ) : (
         adminConfigIsOpened && (
