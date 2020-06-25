@@ -1,38 +1,47 @@
-import { PRODUCTS_LIST } from '../actions/types';
+import {
+  FETCH_PRODUCTS_LIST_PENDING,
+  FETCH_PRODUCTS_LIST_ERROR,
+  FETCH_PRODUCTS_LIST_SUCCESS,
+  SHOULD_UPDATE_PRODUCTS_LIST
+} from 'store/ducks/actions/types';
 import burguersList from '../../data/burguersList.json';
 import sideDishesList from '../../data/sideDishesList.json';
 import drinksList from '../../data/drinksList.json';
 
 const initialState = {
-  productsList: [
-    {
-      id: 1,
-      title: 'DACASA',
-      subtitle: 'desliza, escolhe e clica!',
-      products: [ ...burguersList ],
-    },
-    {
-      id: 2,
-      title: 'MAISÉMELHOR',
-      subtitle: 'já escolheu seu hambúrguer? Acrescenta os acompanhamentos!',
-      products:[...sideDishesList]  
-    },
-    {
-      id: 3,
-      title: 'PRAMOLHAR',
-      subtitle:
-        'já escolheu seu hambúrguer e os acompanhamentos? finaliza com a bebida! desliza, escolhe e clica!',
-      products:[...drinksList]
-      },
-  ],
+  pending:false,
+  error:null,
+  productsList: [],
+  shouldUpdateList:false
 };
 
-const getProductsList = (state = initialState, action) => {
+const getProductsList = (state = initialState, action) => {console.log(state.shouldUpdateList)
   switch (action.type) {
-    case PRODUCTS_LIST:
+    case FETCH_PRODUCTS_LIST_SUCCESS:
       return {
         ...state,
+        pending:false,
+        productsList:[
+          ...action.payload
+        ],
       };
+      case FETCH_PRODUCTS_LIST_PENDING:
+        return {
+          ...state,
+          pending:true,
+        };
+        case FETCH_PRODUCTS_LIST_ERROR:
+          return {
+            ...state,
+            
+            pending:false,
+            error:action.payload
+          };
+        case SHOULD_UPDATE_PRODUCTS_LIST:
+          return {
+            ...state,
+            shouldUpdateList:!state.shouldUpdateList            
+          };
     default:
       return state;
   }
