@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
     color:Constants.Colors.lightGrey,
   },
   inputsContainer:{
-    height:'60%',
+    height:'70%',
     width:'100%',
     justifyContent:'space-between',
     alignItems:'center',

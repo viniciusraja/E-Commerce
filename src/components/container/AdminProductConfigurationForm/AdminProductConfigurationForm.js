@@ -26,7 +26,7 @@ import api from 'services/api';
 import * as SecureStore from 'expo-secure-store';
 import * as ImagePicker from 'expo-image-picker';
 import expoConstants from 'expo-constants';
-import {forcePriceInputToValid} from 'config/Validations'
+import {isProductNameValid,isProductIngredientsDetailsValid,isProductAllergicInformationValid,forcePriceInputToValid} from 'config/Validations'
 
 const AdminProductConfigurationForm = (props) => {
   const dispatch = useDispatch();
@@ -68,8 +68,10 @@ const AdminProductConfigurationForm = (props) => {
 
   const adminAddProductToList = async () => {
     try {
-      const isPriceInputValid=forcePriceInputToValid(`${productPrice}`)
-      console.log(isPriceInputValid)
+      const isPriceInputValid=forcePriceInputToValid(`${productPrice}`|| adminConfigProps.price)
+      isProductNameValid(productName || adminConfigProps.name)
+      isProductIngredientsDetailsValid(productIngredientsDetails)
+      isProductAllergicInformationValid(productAllergicInformation)
       if (!!adminConfigProps.id) {
        const productWasAdded= await api
           .put(
@@ -103,10 +105,10 @@ const AdminProductConfigurationForm = (props) => {
             '/products',
             {
               category_id: adminConfigProps.categoryId,
-              name: productName,
+              name: `${productName}`,
               price: `${isPriceInputValid}`,
-              ingredients_details: productIngredientsDetails,
-              allergic_information: productAllergicInformation,
+              ingredients_details: `${productIngredientsDetails}`,
+              allergic_information: `${productAllergicInformation}`,
             },
             {
               headers: {
@@ -122,7 +124,7 @@ const AdminProductConfigurationForm = (props) => {
           if(productWasUpdated)adminActionSucceded("Produto atualizado com sucesso!")
       }
     } catch (error) {
-      console.log(error);
+      Alert.alert(error)
     }
   };
   const adminDeleteProductToList = async () => {
@@ -140,7 +142,7 @@ const AdminProductConfigurationForm = (props) => {
         .catch((err) => console.log(err));
       if (productWasDeleted)adminActionSucceded("Produto foi Deletado!") 
     } catch (error) {
-      console.log(error);
+      Alert.alert(error)
     }
   };
   const createFormData = (image) => {
@@ -213,12 +215,31 @@ const AdminProductConfigurationForm = (props) => {
           if (imageWasUpdated)adminActionSucceded("Imagem foi atualizada com sucesso!") 
         }
     } catch (error) {
-      console.log(error);
+      Alert.alert(error)
+    }
+  };
+  
+  const adminDeleteProductImage = async () => {
+    try {
+      const imgeWasDeleted = await api
+        .delete(`/products/${adminConfigProps.id}/image`, {
+          headers: {
+            Authorization: `bearer ${await SecureStore.getItemAsync(
+              'userToken'
+            )}`,
+            'content-type': 'application/json',
+          },
+        })
+        .then((res) => true)
+        .catch((err) => console.log(err));
+      if (imgeWasDeleted)adminActionSucceded("Imagem foi Deletada!") 
+    } catch (error) {
+      Alert.alert(error)
     }
   };
 
-  const createDeleteAlert = async () =>
-    Alert.alert(
+  const createDeleteAlert = async (isProductDelete) =>
+  (isProductDelete=="Product")?Alert.alert(
       'Você tem certeza que quer deletar o produto?',
       adminConfigProps.name,
       [
@@ -228,6 +249,18 @@ const AdminProductConfigurationForm = (props) => {
           style: 'cancel',
         },
         { text: 'SIM', onPress: () => adminDeleteProductToList() },
+      ],
+      { cancelable: false }
+    ):Alert.alert(
+      'Você tem certeza que quer deletar a imagem?',
+      adminConfigProps.name,
+      [
+        {
+          text: 'Cancelar',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'SIM', onPress: () => adminDeleteProductImage() },
       ],
       { cancelable: false }
     );
@@ -305,7 +338,7 @@ const AdminProductConfigurationForm = (props) => {
           {adminConfigProps.id && (
             <TouchableOpacity
               style={styles.submitConfig}
-              onPress={async () => await createDeleteAlert()}>
+              onPress={async () => await createDeleteAlert("Product")}>
               <View style={styles.submitConfigContainer}>
                 <AntDesign name="delete" size={18} color="red" />
                 <Text
@@ -346,18 +379,22 @@ const AdminProductConfigurationForm = (props) => {
             </TouchableOpacity>
 
             <View style={styles.inputsContainer}>
+             <View style={{bottom:10}}>
               {!!adminConfigProps.url ? (
                 <Image
-                  style={{ height: 100, width: 100 }}
+                  style={{ height: 140, width: 140, borderRadius:70}}
                   source={{ uri: adminConfigProps.url }}
-                  resizeMode="contain"
-                />
+                  resizeMode="cover"
+                  />
               ) : (
-                <View style={styles.productImageContainer}>
-                  <MaterialCommunityIcons name="food" size={80} color="#555" />
+                <View style={{height:140,width:140,borderRadius:70,justifyContent:'center', alignItems:'center', backgroundColor:'#FFF'}}>
+                  <MaterialCommunityIcons name="food" size={100} color="#555" />
                 </View>
               )}
-
+              {(imageUploadProgress!=0)&&<View style={{height:25, width:"100%"}}>
+                    <Text style={{fontSize:15,textAlign:'center', color:Constants.Colors.lightGrey}}>Carregando...  {imageUploadProgress}%</Text>
+              </View>}
+              </View>
               <TouchableOpacity
                 style={styles.submitConfig}
                 onPress={() => adminAddProductImage(adminConfigProps.id)}>
@@ -374,9 +411,9 @@ const AdminProductConfigurationForm = (props) => {
               {adminConfigProps.imageId && (
                 <TouchableOpacity
                   style={styles.submitConfig}
-                  // onPress={() =>
-                  //   adminAddProductImage(adminConfigProps.productId)
-                  // }
+                  onPress={() =>
+                    createDeleteAlert("Image")
+                  }
                 >
                   <View style={styles.submitConfigContainer}>
                     <AntDesign name="delete" size={18} color="red" />
