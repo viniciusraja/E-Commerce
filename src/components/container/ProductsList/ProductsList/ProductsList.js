@@ -13,7 +13,8 @@ import {
 } from '@expo/vector-icons';
 import ProductCard from '../ProductsCard/'
 import { useDispatch, useSelector } from 'react-redux';
-import { showAdminProductConfigComponent } from 'store/ducks/actions/showComponent';
+import { showAdminProductConfigComponent,showAdminCategoryConfigComponent } from 'store/ducks/actions/showComponent';
+import Constants from 'config/constants/Constants';
 
 import { styles } from './styles';
 import api from 'services/api';
@@ -33,6 +34,32 @@ const ProductsList = (props) => {
       <View style={styles.productsListNameContainer}>
       <Text style={styles.productsListNameTitle}>{`#${props.productsListTitle}`}</Text>
       <Text style={styles.productsListNameSubtitle}>{props.productsListSubtitle}</Text>
+      <TouchableOpacity
+        style={{
+          position: 'absolute',
+          left: 15,
+          bottom: 35,
+          backgroundColor: Constants.Colors.lightGrey,
+          justifyContent: 'center',
+          alignItems: 'center',
+          alignSelf: 'center',
+          height: 45,
+          width: 45,
+          borderRadius: 45,
+        }}
+        onPress={() =>
+          dispatch(
+            showAdminCategoryConfigComponent({
+                 categoryId: props.categoryId,
+                 title: props.productsListTitle,
+                 subtitle: props.productsListSubtitle,
+                 hasProducts:(props.products.length>0)
+            })
+          )
+        }
+        >
+        <FontAwesome name="edit" size={24} color="#FFF" />
+      </TouchableOpacity>
       </View>
       <FlatList
       contentContainerStyle={styles.productsList}
