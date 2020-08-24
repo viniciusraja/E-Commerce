@@ -8,7 +8,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import {
-  Ionicons,
+  Fontisto,
   MaterialIcons,
   AntDesign
 } from '@expo/vector-icons';
@@ -19,6 +19,7 @@ import CartList from 'components/container/CartList/CartList'
 import LoginContainer from 'components/container/LoginContainer';
 import { useNavigation } from 'react-navigation-hooks';
 import { useDispatch, useSelector } from 'react-redux';
+import { showLoginComponent} from 'store/ducks/actions/showComponent';
 
 const getTotalPriceOfCart=(cartList)=>{
   if(!!cartList.length){
@@ -32,8 +33,28 @@ const CartScreen = (props) => {
   const {navigate} = useNavigation();
   const cartList= useSelector(state => (state.getCartList.cartList))
   let total=getTotalPriceOfCart(cartList)
+  const activeUserAdress = useSelector((state) => state.getUserInfo.activeUserAdress);
+  const userInfo = useSelector((state) => state.getUserInfo.userInfo);
+
   return (
     <View style={styles.container}>
+      {activeUserAdress?<TouchableOpacity style={[styles.activeAdressContainer]}
+          onPress={()=>dispatch(showLoginComponent())}>
+            <Ionicons style={{position:'absolute', left:10}} name="ios-home" size={24} color={Constants.Colors.yellowMostard} />
+              <View style={{width:120,justifyContent:'space-between'}}>
+              <Text style={[styles.adressInformationText,{color:Constants.Colors.yellowMostard}]}>{activeUserAdress.street}</Text>
+              <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+              <Text style={[styles.adressInformationText,{color:Constants.Colors.yellowMostard}]}>Nº {activeUserAdress.number}</Text>
+              <Text style={[styles.adressInformationText,{width:65, color:Constants.Colors.yellowMostard}]}>CEP {activeUserAdress.cep}</Text>
+              </View>
+              </View>
+          </TouchableOpacity>:
+          <TouchableOpacity style={[styles.activeAdressContainer]}
+          onPress={()=>dispatch(showLoginComponent())}>
+            {userInfo?<Text style={[styles.adressInformationText,{fontSize:20}]}>Insira seu endereço antes de finalizar o pedido</Text>:
+            <Text style={[styles.adressInformationText,{fontSize:20}]}>Faça o Login antes de finalizar o pedido</Text>}
+          </TouchableOpacity>
+            }
        <View style={styles.cartItemHeaderAndFooterContainer}>
             <View style={styles.productNameContainer}>
               <Text style={styles.productNameText}>Item</Text>
@@ -59,6 +80,11 @@ const CartScreen = (props) => {
           <Text style={styles.productsTotalPriceText}>{total}</Text>
         </View>
       </View>
+      <TouchableOpacity style={[styles.activeAdressContainer]}
+          onPress={()=>dispatch(showLoginComponent())}>
+            <Fontisto  style={{position:'absolute', left:25}}name="shopping-bag-1" size={26} color='green' />
+              <Text style={{fontFamily:Constants.fontFamilyBold,fontSize:20,textAlign:'center',width:250, color:'green'}}>FINALIZAR COMPRA</Text>
+          </TouchableOpacity>
       <LoginContainer />
     </View>
   );
@@ -75,6 +101,21 @@ const styles = StyleSheet.create({
   cartList:{
     flex:1,
     width:'100%',
+  },
+  activeAdressContainer:{
+    flexDirection:'row',
+    height:50,
+    width:"90%",
+    backgroundColor:"#FFF",
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius:15,
+    padding:15,
+  },
+  adressInformationText:{
+    fontFamily:Constants.fontFamily,
+    color:Constants.Colors.backgroundColor,
+    fontSize:16
   },
   cartItemHeaderAndFooterContainer:{
     flexDirection:'row',

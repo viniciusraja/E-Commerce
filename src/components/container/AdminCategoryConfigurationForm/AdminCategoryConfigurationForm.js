@@ -39,7 +39,6 @@ const AdminCategoryConfigurationForm = (props) => {
   const userInfo = useSelector((state) => state.getUserInfo.userInfo);
   const [categoryTitle, setCategoryTitle] = useState('');
   const [categorySubtitle, setCategorySubtitle] = useState('');
-  console.log(adminConfigProps)
   function adminActionSucceded(msg){
     Alert.alert(msg)
     dispatch(updateProductListComponent())
@@ -128,7 +127,6 @@ const AdminCategoryConfigurationForm = (props) => {
       ],
       { cancelable: false }
     )}
-console.log(adminConfigProps)
   return (
     <>
       {adminConfigIsOpened &&(

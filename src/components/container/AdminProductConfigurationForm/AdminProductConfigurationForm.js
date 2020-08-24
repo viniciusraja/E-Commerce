@@ -188,7 +188,6 @@ const AdminProductConfigurationForm = (props) => {
         },
         onUploadProgress: (e) => {
           const progress = parseInt(Math.round((e.loaded * 100) / e.total));
-          console.log('-->', progress, '%');
           setImageUploadProgress(progress);
         },
       };
