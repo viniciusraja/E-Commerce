@@ -15,7 +15,6 @@ import { useDispatch, useSelector } from 'react-redux';
 const CartList = (props) => {
   const dispatch = useDispatch();
   const cartList = props.products;
-  console.log(cartList,'aaaaaaaaaa')
   return (
     <View style={styles.cartListContainer}>
       <FlatList

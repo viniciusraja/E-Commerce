@@ -20,7 +20,6 @@ const CartItemCard = (props) => {
   const [search, setSearch] = useState('');
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
-  console.log(props)
   return (
     <View style={styles.cartItemCardContainer}>
       <TouchableOpacity

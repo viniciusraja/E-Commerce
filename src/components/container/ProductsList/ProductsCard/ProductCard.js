@@ -38,6 +38,7 @@ const ProductCard = (props) => {
   const cartList = useSelector((state) => state.getCartList.cartList);
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
+  const userInfo = useSelector((state) => state.getUserInfo.userInfo);
   const numberOfItemsInCart = checkNumberOfItemsInCart(props.id);
   return (
     <View>
@@ -95,6 +96,8 @@ const ProductCard = (props) => {
         </View>
       )}
 
+      {userInfo.admin&&
+      <>
       <TouchableOpacity
         style={{
           position: 'absolute',
@@ -145,6 +148,7 @@ const ProductCard = (props) => {
         }>
         <FontAwesome name="edit" size={24} color="#FFF" />
       </TouchableOpacity>
+      </>}
     </View>
   );
 };

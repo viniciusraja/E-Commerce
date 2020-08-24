@@ -34,6 +34,7 @@ const ProductsList = (props) => {
       <View style={styles.productsListNameContainer}>
       <Text style={styles.productsListNameTitle}>{`#${props.productsListTitle}`}</Text>
       <Text style={styles.productsListNameSubtitle}>{props.productsListSubtitle}</Text>
+      {userInfo.admin&&
       <TouchableOpacity
         style={{
           position: 'absolute',
@@ -59,7 +60,7 @@ const ProductsList = (props) => {
         }
         >
         <FontAwesome name="edit" size={24} color="#FFF" />
-      </TouchableOpacity>
+      </TouchableOpacity>}
       </View>
       <FlatList
       contentContainerStyle={styles.productsList}
@@ -69,7 +70,8 @@ const ProductsList = (props) => {
       horizontal={true}
       showsHorizontalScrollIndicator={false}
       ListFooterComponent={
-        <View style={{width:100,height:'100%',justifyContent:'center', alignItems:'center'}}>
+        userInfo.admin&&<View style={{width:100,height:'100%',justifyContent:'center', alignItems:'center'}}>
+          
           <TouchableOpacity style={{marginBottom:30,backgroundColor:'red',justifyContent:'center', alignItems:'center', height:45, width:45,borderRadius:30}}
         onPress={()=>dispatch(showAdminProductConfigComponent({categoryId:props.categoryId, productsListTitle:props.productsListTitle,editingProduct:true}))}
             >
